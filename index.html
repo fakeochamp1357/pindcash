@@ -116,6 +116,25 @@ aside.drawer.open{transform:none}
  .head{flex-wrap:wrap}.search{order:3;flex-basis:100%;max-width:none}
  .logo small{display:none}
 }
+.modal{position:fixed;inset:0;z-index:110;display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:20px 12px;background:rgba(0,0,0,.5)}
+.modal.open{display:flex}
+.mbox{background:#fff;border-radius:18px;max-width:640px;width:100%;padding:22px;margin:auto}
+.mbox h3{margin:0 0 4px;font-size:1.3rem}
+.mbox fieldset{border:1px solid var(--line);border-radius:12px;margin:14px 0;padding:12px 14px}
+.mbox legend{font-weight:800;padding:0 6px}
+.mbox label.f{display:block;margin:8px 0 2px;font-size:.85rem;font-weight:600}
+.mbox input[type=text],.mbox input[type=email],.mbox input[type=tel],.mbox select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:8px}
+.slots label{border:1px solid var(--line);border-radius:10px;padding:9px;text-align:center;cursor:pointer;font-size:.9rem}
+.slots input{display:none}
+.slots label:has(input:checked){background:var(--green);color:#fff;border-color:var(--green)}
+.slots label.off{opacity:.35;pointer-events:none;text-decoration:line-through}
+.pay label{display:flex;gap:10px;align-items:center;padding:8px 0}
+.msgline{font-size:.88rem;margin-top:6px}.msgline.ok{color:var(--green)}.msgline.bad{color:#b42318}
+.sum div{display:flex;justify-content:space-between;padding:3px 0}
+.sum .t{font-weight:800;font-size:1.1rem;border-top:1px solid var(--line);margin-top:6px;padding-top:8px}
+.note{background:#fff7e6;border:1px solid #f3d9a4;border-radius:10px;padding:10px 12px;font-size:.85rem;margin-top:10px}
 </style>
 </head>
 <body>
@@ -158,7 +177,7 @@ aside.drawer.open{transform:none}
     <div><span class="e">🏷️</span><span><b>Faire Preise</b>Qualität, die sich lohnt</span></div>
     <div><span class="e">🌍</span><span><b>Asien & Afrika</b>Große Auswahl</span></div>
     <div><span class="e">♻️</span><span><b>Weniger Plastik</b>Gut für die Umwelt</span></div>
-    <div><span class="e">🚚</span><span><b>Lieferung bald</b>Online-Shop in Planung</span></div>
+    <div><span class="e">🚚</span><span><b>Lieferung nach Hause</b>Mo–Sa, 10–20 Uhr</span></div>
   </div>
 </div>
 
@@ -180,9 +199,9 @@ aside.drawer.open{transform:none}
 
 <section><div class="wrap">
   <div class="delivery">
-    <div><h2>Online-Shop & Lieferung – bald verfügbar</h2>
-    <p>Wir arbeiten an unserem Online-Shop mit Lieferung nach Hause. Weitere Sortimente wie Elektronik und Hygieneartikel folgen.</p></div>
-    <a class="btn o" href="#kontakt">Benachrichtigen lassen</a>
+    <div><h2>Wir liefern in Mönchengladbach und Umgebung</h2>
+    <p>Legen Sie Ihre Produkte in die Liste, wählen Sie Ihr Lieferfenster (Mo–Sa, 10–20 Uhr, bis 20 km) und zahlen Sie online oder bar bei Lieferung.</p></div>
+    <a class="btn o" href="#produkte">Jetzt einkaufen</a>
   </div>
 </div></section>
 
@@ -230,10 +249,39 @@ aside.drawer.open{transform:none}
   <div class="items" id="items"></div>
   <div class="foot">
     <div class="tot"><span>Summe (ca.)</span><span id="total">0,00 €</span></div>
-    <button class="btn o" id="copyList">Liste kopieren</button>
-    <small>Online-Bestellung ist noch nicht möglich. Nehmen Sie Ihre Liste einfach mit in den Markt.</small>
+    <button class="btn o" id="checkout">Zur Kasse</button>
+    <button class="btn w" id="copyList" style="margin-top:8px;border:1px solid var(--line)">Liste kopieren</button>
+    <small>Lieferung Mo–Sa, 10–20 Uhr, in Mönchengladbach und Umgebung (max. 20 km).</small>
   </div>
 </aside>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Kasse">
+ <div class="mbox">
+  <div style="display:flex;justify-content:space-between;align-items:center"><h3>Bestellung & Lieferung</h3><button id="closeModal" style="border:0;background:none;font-size:1.6rem" aria-label="Schließen">×</button></div>
+  <p class="sub" style="margin:0 0 6px">Lieferung nach Hause – Mo–Sa, 10–20 Uhr.</p>
+  <form id="orderForm">
+   <fieldset><legend>1. Lieferadresse</legend>
+    <div class="two"><div><label class="f">Name</label><input type="text" name="name" required></div><div><label class="f">Telefon</label><input type="tel" name="tel" required></div></div>
+    <label class="f">E-Mail</label><input type="email" name="mail" required>
+    <label class="f">Straße und Hausnummer</label><input type="text" name="str" required>
+    <div class="two"><div><label class="f">PLZ</label><input type="text" name="plz" id="plz" inputmode="numeric" maxlength="5" required></div><div><label class="f">Ort</label><input type="text" name="ort" required value="Mönchengladbach"></div></div>
+    <div class="msgline" id="plzMsg"></div>
+   </fieldset>
+   <fieldset><legend>2. Lieferzeit</legend>
+    <label class="f">Tag</label><select id="day" name="day"></select>
+    <div class="slots" id="slots"></div>
+    <div class="msgline" id="slotMsg"></div>
+   </fieldset>
+   <fieldset class="pay"><legend>3. Zahlung</legend>
+    <label><input type="radio" name="pay" value="online" checked> Online bezahlen (Karte, PayPal …)</label>
+    <label><input type="radio" name="pay" value="bar"> Bar bei Lieferung</label>
+   </fieldset>
+   <div class="sum" id="sum"></div>
+   <div class="msgline bad" id="minMsg"></div>
+   <button class="btn o" type="submit" style="width:100%;margin-top:10px">Bestellung abschicken</button>
+   <div class="note">Testversion: Die Online-Zahlung ist noch nicht angeschlossen. Aktuell wird die Bestellung als E-Mail an den Markt vorbereitet.</div>
+  </form>
+ </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -353,6 +401,63 @@ $("#copyList").onclick=()=>{
 $("#msgForm").addEventListener("submit",e=>{
   e.preventDefault();const f=e.target;
   location.href=`mailto:lebensmittel6@googlemail.com?subject=${encodeURIComponent("Anfrage von "+f.n.value)}&body=${encodeURIComponent(f.m.value+"\n\n"+f.n.value+" ("+f.e.value+")")}`;
+});
+// ---- Kasse ----
+const MIN_ORDER=25, FEE=3.90, FREE_FROM=60; // Beispielwerte, bitte anpassen
+// PLZ im Liefergebiet (Mönchengladbach + Umgebung, ca. 20 km) – bitte prüfen/ergänzen
+const PLZ_OK=[
+ ...Array.from({length:179},(_,i)=>String(41061+i)),
+ "41334","41336","41338","41340","41352","41363","41366","41372","41379","41460","41462","41464","41466","41468","41469","41515","41516","41517","41539","41541","41542","41564","41569","41747","41748","41749","41751","41812","41836","41844","41849","47877","47879","47906","47918","47929"
+];
+const SLOT_H=[[10,12],[12,14],[14,16],[16,18],[18,20]];
+const DAYN=["So","Mo","Di","Mi","Do","Fr","Sa"];
+const modal=$("#modal");
+function cartSum(){let t=0;for(const i in cart)t+=P[i].price*cart[i];return t}
+function slotFree(dt,h){return new Date(dt.getFullYear(),dt.getMonth(),dt.getDate(),h[0]).getTime()-Date.now()>=2*3600e3}
+function buildDays(){
+  const sel=$("#day");sel.innerHTML="";const now=new Date();let n=0;
+  for(let d=0;n<7&&d<14;d++){
+    const dt=new Date(now.getFullYear(),now.getMonth(),now.getDate()+d);
+    if(dt.getDay()===0||!SLOT_H.some(h=>slotFree(dt,h)))continue;
+    const o=document.createElement("option");
+    o.value=dt.getFullYear()+"-"+(dt.getMonth()+1)+"-"+dt.getDate();
+    o.textContent=(d===0?"Heute":d===1?"Morgen":DAYN[dt.getDay()])+", "+dt.toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit"});
+    sel.appendChild(o);n++;
+  }
+  drawSlots();
+}
+function drawSlots(){
+  const [y,m,d]=$("#day").value.split("-").map(Number);const dt=new Date(y,m-1,d);
+  $("#slots").innerHTML=SLOT_H.map(h=>`<label class="${slotFree(dt,h)?"":"off"}"><input type="radio" name="slot" value="${h[0]}-${h[1]}">${h[0]}–${h[1]} Uhr</label>`).join("");
+}
+function drawSum(){
+  const sub=cartSum(),fee=sub>=FREE_FROM?0:FEE;
+  $("#sum").innerHTML=`<div><span>Waren</span><span>${eur(sub)}</span></div><div><span>Lieferung${sub>=FREE_FROM?" (kostenlos ab "+eur(FREE_FROM)+")":""}</span><span>${eur(fee)}</span></div><div class="t"><span>Gesamt</span><span>${eur(sub+fee)}</span></div>`;
+  $("#minMsg").textContent=sub<MIN_ORDER?"Mindestbestellwert: "+eur(MIN_ORDER):"";
+}
+$("#checkout").onclick=()=>{
+  if(!Object.keys(cart).length){toast("Die Liste ist leer");return}
+  setCart(false);buildDays();drawSum();modal.classList.add("open");
+};
+$("#closeModal").onclick=()=>modal.classList.remove("open");
+modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("open")});
+$("#day").onchange=drawSlots;
+$("#plz").addEventListener("input",e=>{
+  const v=e.target.value.trim(),m=$("#plzMsg");
+  if(v.length<5){m.textContent="";m.className="msgline";return}
+  if(PLZ_OK.includes(v)){m.textContent="✔ Wir liefern zu Ihnen.";m.className="msgline ok"}
+  else{m.textContent="Leider liefern wir nicht in diese PLZ (nur Mönchengladbach und Umgebung, max. 20 km).";m.className="msgline bad"}
+});
+$("#orderForm").addEventListener("submit",e=>{
+  e.preventDefault();const f=e.target;
+  if(!PLZ_OK.includes(f.plz.value.trim())){$("#plzMsg").textContent="Bitte eine PLZ im Liefergebiet eingeben.";$("#plzMsg").className="msgline bad";return}
+  if(cartSum()<MIN_ORDER){drawSum();return}
+  const slot=(f.querySelector("[name=slot]:checked")||{}).value;
+  if(!slot){$("#slotMsg").textContent="Bitte ein Lieferfenster wählen.";$("#slotMsg").className="msgline bad";return}
+  const lines=Object.keys(cart).map(i=>cart[i]+"x "+P[i].name+" ("+P[i].unit+") – "+eur(P[i].price*cart[i])).join("\n");
+  const sub=cartSum(),fee=sub>=FREE_FROM?0:FEE;
+  const body="Neue Lieferbestellung\n\n"+lines+"\n\nWaren: "+eur(sub)+"\nLieferung: "+eur(fee)+"\nGesamt: "+eur(sub+fee)+"\nZahlung: "+(f.pay.value==="bar"?"Bar bei Lieferung":"Online")+"\n\nLieferung: "+$("#day").selectedOptions[0].textContent+", "+slot+" Uhr\n"+f.name.value+"\n"+f.str.value+", "+f.plz.value+" "+f.ort.value+"\nTel: "+f.tel.value+"\nE-Mail: "+f.mail.value;
+  location.href="mailto:lebensmittel6@googlemail.com?subject="+encodeURIComponent("Bestellung von "+f.name.value)+"&body="+encodeURIComponent(body);
 });
 $("#yr").textContent=new Date().getFullYear();
 render();drawCart();

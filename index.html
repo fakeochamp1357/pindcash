@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pind Cash & Carry – Afro & Asia Lebensmittel</title>
+<meta name="description" content="Pind Cash & Carry: Afrikanische und asiatische Lebensmittel zu fairen Preisen. Jetzt Produkte suchen und Einkaufsliste erstellen.">
+<style>
+:root{--green:#1f7a3d;--green-d:#155a2c;--orange:#f08a1c;--cream:#fbf7ef;--ink:#1c2a22;--muted:#66726b;--card:#fff;--line:#e6e0d2;--r:14px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--cream);line-height:1.5}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+.topbar{background:var(--green-d);color:#e9f5ec;font-size:.85rem}
+.topbar .wrap{display:flex;justify-content:space-between;gap:12px;padding:6px 16px;flex-wrap:wrap}
+header.main{background:#fff;position:sticky;top:0;z-index:50;box-shadow:0 1px 0 var(--line)}
+.head{display:flex;align-items:center;gap:16px;padding:12px 16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem;color:var(--green);white-space:nowrap}
+.logo span.m{width:40px;height:40px;border-radius:12px;background:var(--orange);color:#fff;display:grid;place-items:center;font-size:1.3rem}
+.logo small{display:block;font-weight:500;color:var(--muted);font-size:.72rem;margin-top:-2px}
+.search{flex:1;position:relative;max-width:640px}
+.search input{width:100%;padding:12px 100px 12px 44px;border:2px solid var(--line);border-radius:999px;font:inherit;background:var(--cream);outline:none}
+.search input:focus{border-color:var(--green);background:#fff}
+.search .ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.search button.go{position:absolute;right:5px;top:5px;bottom:5px;padding:0 20px;border:0;border-radius:999px;background:var(--green);color:#fff;font-weight:700}
+.search button.go:hover{background:var(--green-d)}
+.suggest{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:0 12px 30px rgba(0,0,0,.12);overflow:hidden;display:none}
+.suggest.open{display:block}
+.suggest button{display:flex;width:100%;align-items:center;gap:10px;padding:10px 14px;border:0;background:none;text-align:left}
+.suggest button:hover,.suggest button.on{background:#eef7f0}
+.suggest em{color:var(--muted);font-style:normal;font-size:.8rem;margin-left:auto}
+nav.links{display:flex;gap:4px;margin-left:auto}
+nav.links a{padding:8px 12px;border-radius:8px;font-weight:600}
+nav.links a:hover{background:#eef7f0;color:var(--green)}
+.cartbtn{position:relative;border:0;background:var(--orange);color:#fff;border-radius:999px;padding:10px 16px;font-weight:700;white-space:nowrap}
+.cartbtn b{background:#fff;color:var(--orange);border-radius:999px;padding:0 8px;margin-left:6px}
+.menubtn{display:none;border:0;background:none;font-size:1.6rem}
+.cats{border-top:1px solid var(--line);background:#fff}
+.cats .wrap{display:flex;gap:6px;overflow-x:auto;padding:8px 16px;scrollbar-width:none}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;white-space:nowrap;font-weight:600;font-size:.92rem}
+.chip:hover{border-color:var(--green)}
+.chip.on{background:var(--green);border-color:var(--green);color:#fff}
+.hero{background:linear-gradient(120deg,var(--green) 0%,#2f9e55 60%,#7bc043 100%);color:#fff;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center;padding:48px 16px}
+.hero h1{font-size:clamp(1.9rem,4.5vw,3rem);line-height:1.1;margin:0 0 12px}
+.hero p{font-size:1.1rem;max-width:520px;margin:0 0 22px;opacity:.95}
+.btn{display:inline-block;border:0;border-radius:999px;padding:12px 22px;font-weight:700}
+.btn.o{background:var(--orange);color:#fff}.btn.o:hover{background:#d97706}
+.btn.w{background:#fff;color:var(--green)}
+.hero .art{font-size:6rem;text-align:center;line-height:1.1;filter:drop-shadow(0 8px 12px rgba(0,0,0,.2))}
+.usp{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:-26px;position:relative}
+.usp div{background:#fff;border-radius:var(--r);padding:14px 16px;box-shadow:0 6px 18px rgba(0,0,0,.07);display:flex;gap:12px;align-items:center;font-size:.9rem}
+.usp .e{font-size:1.6rem}.usp b{display:block}
+section{padding:44px 0}
+h2{font-size:1.7rem;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 22px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 10px;text-align:center;font-weight:700;transition:.15s}
+.tile:hover{transform:translateY(-3px);border-color:var(--green);box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.tile .e{font-size:2.4rem;display:block;margin-bottom:6px}
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px}
+.bar select{padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:#fff;font:inherit}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.card .pic{height:130px;display:grid;place-items:center;font-size:4rem;background:linear-gradient(135deg,#f3efe3,#fff)}
+.card .body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
+.card .cat{font-size:.75rem;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.card h3{margin:0;font-size:1rem}
+.card .unit{color:var(--muted);font-size:.85rem}
+.card .row{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:10px}
+.price{font-weight:800;font-size:1.15rem}
+.add{border:0;background:var(--green);color:#fff;border-radius:10px;padding:8px 14px;font-weight:700}
+.add:hover{background:var(--green-d)}
+.tag{position:absolute;margin:8px;background:var(--orange);color:#fff;font-size:.72rem;font-weight:800;padding:3px 8px;border-radius:999px}
+.empty{text-align:center;padding:40px;color:var(--muted);background:#fff;border-radius:var(--r);border:1px dashed var(--line)}
+mark{background:#ffe9a8;padding:0 2px;border-radius:3px}
+.delivery{background:var(--ink);color:#fff;border-radius:22px;padding:34px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.delivery h2{color:#fff}.delivery p{margin:0;color:#cfd8d2}
+.goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.goal{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.goal .e{font-size:2rem}.goal h3{margin:6px 0}.goal p{margin:0;color:var(--muted)}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.box{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.box p{margin:8px 0}
+form.msg{display:grid;gap:10px}
+form.msg input,form.msg textarea{padding:11px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;width:100%}
+footer{background:var(--green-d);color:#cfe7d6;padding:30px 0;margin-top:20px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a:hover{color:#fff;text-decoration:underline}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:.2s;z-index:90}
+.overlay.open{opacity:1;pointer-events:auto}
+aside.drawer{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);background:#fff;z-index:100;transform:translateX(100%);transition:.25s;display:flex;flex-direction:column}
+aside.drawer.open{transform:none}
+.drawer header{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}
+.drawer h3{margin:0}
+.drawer .x{border:0;background:none;font-size:1.5rem}
+.items{flex:1;overflow:auto;padding:8px 18px}
+.item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.item .e{font-size:1.8rem}
+.item .t{flex:1;font-size:.92rem}.item .t small{color:var(--muted);display:block}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:#fff;font-weight:700}
+.foot{padding:16px 18px;border-top:1px solid var(--line)}
+.foot .tot{display:flex;justify-content:space-between;font-weight:800;font-size:1.15rem;margin-bottom:10px}
+.foot .btn{width:100%;text-align:center}
+.foot small{color:var(--muted);display:block;margin-top:8px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,80px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;transition:.25s;z-index:120;opacity:0}
+.toast.show{transform:translate(-50%,0);opacity:1}
+@media(max-width:860px){
+ .hero .wrap{grid-template-columns:1fr}.hero .art{display:none}
+ .usp{grid-template-columns:1fr 1fr}.contact{grid-template-columns:1fr}
+ .delivery{grid-template-columns:1fr}
+ nav.links{display:none}
+ .head{flex-wrap:wrap}.search{order:3;flex-basis:100%;max-width:none}
+ .logo small{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <span>🛒 Afro & Asia Lebensmittel – Cash & Carry</span>
+  <span>📞 <a href="tel:+4915155685555">+49 151 55685555</a> · ✉️ <a href="mailto:lebensmittel6@googlemail.com">lebensmittel6@googlemail.com</a></span>
+</div></div>
+
+<header class="main">
+  <div class="wrap head">
+    <a class="logo" href="#top"><span class="m">P</span><div>Pind Cash & Carry<small>Afro & Asia Lebensmittel</small></div></a>
+    <form class="search" id="searchForm" role="search" autocomplete="off">
+      <span class="ic">🔍</span>
+      <input id="q" type="search" placeholder="Produkt suchen, z. B. Reis, Palmöl, Kokosmilch …" aria-label="Produkte suchen">
+      <button class="go" type="submit">Suchen</button>
+      <div class="suggest" id="suggest" role="listbox"></div>
+    </form>
+    <nav class="links">
+      <a href="#produkte">Produkte</a><a href="#preise">Preise</a><a href="#ziele">Über uns</a><a href="#kontakt">Kontakt</a>
+    </nav>
+    <button class="cartbtn" id="openCart">🧺 Liste <b id="cartCount">0</b></button>
+  </div>
+  <div class="cats"><div class="wrap" id="chips"></div></div>
+</header>
+
+<main id="top">
+<div class="hero"><div class="wrap">
+  <div>
+    <h1>Die Welt der Aromen – frisch in Ihrer Nähe.</h1>
+    <p>Lebensmittel aus Asien und Afrika zu fairen Preisen. Hohe Qualität, große Vielfalt und weniger Plastik für unsere Umwelt.</p>
+    <a class="btn o" href="#produkte">Sortiment entdecken</a>
+    <a class="btn w" href="#kontakt">Kontakt</a>
+  </div>
+  <div class="art" aria-hidden="true">🍚🌶️<br>🥥🍠🥭</div>
+</div></div>
+
+<div class="wrap">
+  <div class="usp">
+    <div><span class="e">🏷️</span><span><b>Faire Preise</b>Qualität, die sich lohnt</span></div>
+    <div><span class="e">🌍</span><span><b>Asien & Afrika</b>Große Auswahl</span></div>
+    <div><span class="e">♻️</span><span><b>Weniger Plastik</b>Gut für die Umwelt</span></div>
+    <div><span class="e">🚚</span><span><b>Lieferung bald</b>Online-Shop in Planung</span></div>
+  </div>
+</div>
+
+<section id="kategorien"><div class="wrap">
+  <h2>Kategorien</h2><p class="sub">Wählen Sie eine Kategorie, um direkt zu den Produkten zu springen.</p>
+  <div class="tiles" id="tiles"></div>
+</div></section>
+
+<section id="produkte" style="padding-top:0"><div class="wrap">
+  <div class="bar">
+    <div><h2 id="resTitle">Alle Produkte</h2><p class="sub" id="resCount" style="margin:0"></p></div>
+    <label>Sortieren: <select id="sort">
+      <option value="rel">Empfohlen</option><option value="pa">Preis aufsteigend</option><option value="pd">Preis absteigend</option><option value="az">Name A–Z</option>
+    </select></label>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="sub" id="preise" style="margin-top:18px">Hinweis: Preise sind Beispielwerte und können im Markt abweichen. Aktuelle Preise erfahren Sie im Geschäft oder telefonisch.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="delivery">
+    <div><h2>Online-Shop & Lieferung – bald verfügbar</h2>
+    <p>Wir arbeiten an unserem Online-Shop mit Lieferung nach Hause. Weitere Sortimente wie Elektronik und Hygieneartikel folgen.</p></div>
+    <a class="btn o" href="#kontakt">Benachrichtigen lassen</a>
+  </div>
+</div></section>
+
+<section id="ziele" style="padding-top:10px"><div class="wrap">
+  <h2>Unsere Ziele in der Zukunft</h2><p class="sub">Wir bieten qualitativ hochwertige Produkte zu angemessenen Preisen – und wollen noch besser werden.</p>
+  <div class="goals">
+    <div class="goal"><div class="e">😊</div><h3>Zufriedenheit</h3><p>Ihre Zufriedenheit steht für uns an erster Stelle.</p></div>
+    <div class="goal"><div class="e">📈</div><h3>Verbesserungen</h3><p>Wir verbessern uns stetig – auf Basis Ihres Feedbacks.</p></div>
+    <div class="goal"><div class="e">🌈</div><h3>Vielfältigkeit</h3><p>Lebensmittel aus verschiedenen Kulturkreisen Asiens und Afrikas.</p></div>
+    <div class="goal"><div class="e">🌱</div><h3>Umweltschutz</h3><p>Wir reduzieren Plastik, um die Umwelt zu schützen.</p></div>
+  </div>
+</div></section>
+
+<section id="kontakt" style="padding-top:10px"><div class="wrap">
+  <h2>Kontakt</h2><p class="sub">Fragen, Wünsche oder Produktvorschläge? Schreiben Sie uns.</p>
+  <div class="contact">
+    <div class="box">
+      <p>📞 <a href="tel:+4915155685555"><b>+49 151 55685555</b></a></p>
+      <p>✉️ <a href="mailto:lebensmittel6@googlemail.com"><b>lebensmittel6@googlemail.com</b></a></p>
+      <p>📍 Adresse: <i>[hier Ihre Adresse eintragen]</i></p>
+      <p>🕘 Öffnungszeiten: <i>[hier Öffnungszeiten eintragen]</i></p>
+    </div>
+    <div class="box">
+      <form class="msg" id="msgForm">
+        <input name="n" placeholder="Ihr Name" required>
+        <input name="e" type="email" placeholder="Ihre E-Mail" required>
+        <textarea name="m" rows="4" placeholder="Ihre Nachricht" required></textarea>
+        <button class="btn o" type="submit">Nachricht senden</button>
+      </form>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div>© <span id="yr"></span> Pind Cash & Carry – Afro & Asia Lebensmittel</div>
+  <div><a href="#produkte">Produkte</a> · <a href="#ziele">Über uns</a> · <a href="#kontakt">Kontakt</a> · <a href="#impressum">Impressum</a></div>
+</div>
+<div class="wrap" id="impressum" style="margin-top:14px;font-size:.85rem"><div><i>Impressum: [hier Ihre Pflichtangaben nach §5 DDG eintragen – Name, Anschrift, Kontakt, ggf. USt-IdNr.]</i></div></div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Einkaufsliste">
+  <header><h3>🧺 Meine Einkaufsliste</h3><button class="x" id="closeCart" aria-label="Schließen">×</button></header>
+  <div class="items" id="items"></div>
+  <div class="foot">
+    <div class="tot"><span>Summe (ca.)</span><span id="total">0,00 €</span></div>
+    <button class="btn o" id="copyList">Liste kopieren</button>
+    <small>Online-Bestellung ist noch nicht möglich. Nehmen Sie Ihre Liste einfach mit in den Markt.</small>
+  </div>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script>
+const CATS=[
+ {id:"reis",n:"Reis & Getreide",e:"🍚"},
+ {id:"gewuerze",n:"Gewürze & Soßen",e:"🌶️"},
+ {id:"gemuese",n:"Gemüse & Wurzeln",e:"🍠"},
+ {id:"obst",n:"Obst & Früchte",e:"🥭"},
+ {id:"konserven",n:"Konserven & Öle",e:"🥫"},
+ {id:"nudeln",n:"Nudeln & Snacks",e:"🍜"},
+ {id:"getraenke",n:"Getränke & Tee",e:"🍵"},
+ {id:"fisch",n:"Fisch & Fleisch",e:"🐟"}
+];
+// Beispielprodukte – bitte mit echtem Sortiment und echten Preisen ersetzen
+const P=[
+ ["Basmati Reis","reis","5 kg Sack",14.99,"🍚",1],["Jasminreis","reis","5 kg Sack",11.99,"🍚"],["Maismehl (Fufu)","reis","1 kg",3.49,"🌽"],["Cassava Mehl (Gari)","reis","1 kg",3.99,"🥔"],["Yam-Mehl","reis","1 kg",4.49,"🍠"],["Klebreis","reis","1 kg",2.99,"🍙"],
+ ["Chilipulver","gewuerze","250 g",2.99,"🌶️"],["Currypulver","gewuerze","200 g",2.49,"🥄"],["Maggi-Würfel","gewuerze","100 Stk.",5.99,"🧂",1],["Sojasoße","gewuerze","500 ml",2.79,"🍶"],["Sriracha Soße","gewuerze","450 ml",3.49,"🌶️"],["Ingwer-Knoblauch-Paste","gewuerze","300 g",2.99,"🧄"],["Scotch Bonnet Pfeffer","gewuerze","200 g",3.29,"🌶️"],
+ ["Süßkartoffeln","gemuese","1 kg",2.49,"🍠"],["Yamswurzel","gemuese","1 kg",3.99,"🥔"],["Kochbananen","gemuese","1 kg",2.99,"🍌"],["Okra","gemuese","500 g",2.79,"🥒"],["Maniok","gemuese","1 kg",3.49,"🥔"],["Pak Choi","gemuese","500 g",1.99,"🥬"],["Frischer Ingwer","gemuese","500 g",2.49,"🫚"],
+ ["Mango","obst","pro Stück",1.99,"🥭"],["Papaya","obst","pro Stück",2.99,"🍈"],["Kokosnuss","obst","pro Stück",1.79,"🥥"],["Ananas","obst","pro Stück",2.49,"🍍"],["Litschi","obst","500 g",4.49,"🍒"],
+ ["Kokosmilch","konserven","400 ml",1.79,"🥥",1],["Palmöl (rot)","konserven","1 l",4.99,"🛢️"],["Erdnussöl","konserven","1 l",5.49,"🥜"],["Tomatenmark","konserven","400 g",1.49,"🍅"],["Sardinen in Öl","konserven","125 g",1.29,"🐟"],["Schwarzaugenbohnen","konserven","400 g",1.69,"🫘"],["Bambussprossen","konserven","227 g",1.49,"🎍"],
+ ["Instantnudeln","nudeln","5er Pack",3.49,"🍜",1],["Reisnudeln","nudeln","400 g",2.19,"🍜"],["Udon Nudeln","nudeln","200 g",1.99,"🍜"],["Kochbananen-Chips","nudeln","150 g",2.29,"🍌"],["Erdnüsse geröstet","nudeln","500 g",3.49,"🥜"],["Reiscracker","nudeln","100 g",1.79,"🍘"],
+ ["Grüner Tee","getraenke","100 Beutel",3.99,"🍵"],["Hibiskustee","getraenke","200 g",3.49,"🌺"],["Ingwerbier","getraenke","1,5 l",2.49,"🥤"],["Kokoswasser","getraenke","1 l",2.99,"🥥"],["Malzgetränk","getraenke","330 ml",1.49,"🥤"],
+ ["Stockfisch","fisch","500 g",12.99,"🐟"],["Geräucherter Fisch","fisch","400 g",8.99,"🐟"],["Garnelen TK","fisch","500 g",7.99,"🦐"],["Ziegenfleisch TK","fisch","1 kg",11.99,"🍖"]
+].map((a,i)=>({id:i,name:a[0],cat:a[1],unit:a[2],price:a[3],e:a[4],hot:!!a[5]}));
+
+const $=s=>document.querySelector(s);
+const eur=n=>n.toFixed(2).replace(".",",")+" €";
+const catName=id=>CATS.find(c=>c.id===id).n;
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/ß/g,"ss");
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let state={q:"",cat:"all",sort:"rel"};
+let cart={};
+try{cart=JSON.parse(localStorage.getItem("pind-cart")||"{}")}catch(e){}
+
+function hl(text,q){
+  if(!q)return esc(text);
+  const i=norm(text).indexOf(norm(q));
+  if(i<0)return esc(text);
+  return esc(text.slice(0,i))+"<mark>"+esc(text.slice(i,i+q.length))+"</mark>"+esc(text.slice(i+q.length));
+}
+function results(){
+  let r=P.filter(p=>state.cat==="all"||p.cat===state.cat);
+  if(state.q){const q=norm(state.q);r=r.filter(p=>norm(p.name+" "+catName(p.cat)).includes(q))}
+  if(state.sort==="pa")r.sort((a,b)=>a.price-b.price);
+  if(state.sort==="pd")r.sort((a,b)=>b.price-a.price);
+  if(state.sort==="az")r.sort((a,b)=>a.name.localeCompare(b.name,"de"));
+  if(state.sort==="rel")r.sort((a,b)=>b.hot-a.hot);
+  return r;
+}
+function render(){
+  $("#chips").innerHTML=[{id:"all",n:"Alle",e:"🛍️"},...CATS].map(c=>`<button class="chip ${state.cat===c.id?"on":""}" data-cat="${c.id}">${c.e} ${c.n}</button>`).join("");
+  const r=results();
+  $("#resTitle").textContent=state.q?`Ergebnisse für „${state.q}“`:(state.cat==="all"?"Alle Produkte":catName(state.cat));
+  $("#resCount").textContent=r.length+(r.length===1?" Produkt":" Produkte");
+  $("#grid").innerHTML=r.length?r.map(p=>`<article class="card">
+    <div class="pic">${p.hot?'<span class="tag">Beliebt</span>':""}${p.e}</div>
+    <div class="body"><span class="cat">${catName(p.cat)}</span><h3>${hl(p.name,state.q)}</h3><span class="unit">${p.unit}</span>
+    <div class="row"><span class="price">${eur(p.price)}</span><button class="add" data-add="${p.id}">+ Liste</button></div></div></article>`).join("")
+    :`<div class="empty" style="grid-column:1/-1">😕 Nichts gefunden für „${esc(state.q)}“.<br>Versuchen Sie einen anderen Begriff oder fragen Sie uns direkt – vielleicht haben wir es im Markt.</div>`;
+}
+$("#tiles").innerHTML=CATS.map(c=>`<a class="tile" href="#produkte" data-cat="${c.id}"><span class="e">${c.e}</span>${c.n}</a>`).join("");
+
+document.addEventListener("click",e=>{
+  const c=e.target.closest("[data-cat]");
+  if(c){state.cat=c.dataset.cat;state.q="";$("#q").value="";render();if(c.tagName==="BUTTON")document.getElementById("produkte").scrollIntoView({behavior:"smooth"})}
+  const a=e.target.closest("[data-add]");
+  if(a){add(+a.dataset.add,1)}
+  const m=e.target.closest("[data-chg]");
+  if(m){add(+m.dataset.id,+m.dataset.chg)}
+  if(!e.target.closest(".search"))$("#suggest").classList.remove("open");
+});
+$("#sort").onchange=e=>{state.sort=e.target.value;render()};
+
+// Suche mit Vorschlägen
+const q=$("#q"),sg=$("#suggest");let idx=-1,cur=[];
+q.addEventListener("input",()=>{
+  const v=q.value.trim();state.q=v;render();
+  if(!v){sg.classList.remove("open");return}
+  cur=P.filter(p=>norm(p.name).includes(norm(v))).slice(0,6);idx=-1;
+  sg.innerHTML=cur.length?cur.map((p,i)=>`<button type="button" data-i="${i}"><span>${p.e}</span><span>${hl(p.name,v)}</span><em>${catName(p.cat)}</em></button>`).join(""):`<button type="button" disabled>Keine Vorschläge</button>`;
+  sg.classList.add("open");
+});
+sg.addEventListener("click",e=>{const b=e.target.closest("[data-i]");if(b)pick(+b.dataset.i)});
+function pick(i){q.value=cur[i].name;state.q=cur[i].name;state.cat="all";sg.classList.remove("open");render();$("#produkte").scrollIntoView({behavior:"smooth"})}
+q.addEventListener("keydown",e=>{
+  const bs=[...sg.querySelectorAll("[data-i]")];if(!bs.length)return;
+  if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();idx=(idx+(e.key==="ArrowDown"?1:-1)+bs.length)%bs.length;bs.forEach((b,i)=>b.classList.toggle("on",i===idx))}
+  if(e.key==="Enter"&&idx>=0){e.preventDefault();pick(idx)}
+  if(e.key==="Escape")sg.classList.remove("open");
+});
+$("#searchForm").addEventListener("submit",e=>{e.preventDefault();state.q=q.value.trim();state.cat="all";sg.classList.remove("open");render();$("#produkte").scrollIntoView({behavior:"smooth"})});
+
+// Einkaufsliste
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("show"),1600)}
+function add(id,d){
+  cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];
+  try{localStorage.setItem("pind-cart",JSON.stringify(cart))}catch(e){}
+  if(d>0)toast("Zur Liste hinzugefügt: "+P[id].name);
+  drawCart();
+}
+function drawCart(){
+  const ids=Object.keys(cart);let tot=0,n=0;
+  $("#items").innerHTML=ids.length?ids.map(i=>{const p=P[i],q=cart[i];tot+=p.price*q;n+=q;
+    return `<div class="item"><span class="e">${p.e}</span><div class="t">${p.name}<small>${p.unit} · ${eur(p.price)}</small></div>
+    <div class="qty"><button data-id="${i}" data-chg="-1">−</button><b>${q}</b><button data-id="${i}" data-chg="1">+</button></div></div>`}).join("")
+    :`<div class="empty" style="margin-top:20px">Ihre Liste ist leer.</div>`;
+  $("#total").textContent=eur(tot);$("#cartCount").textContent=n;
+}
+const drawer=$("#drawer"),ov=$("#overlay");
+const setCart=o=>{drawer.classList.toggle("open",o);ov.classList.toggle("open",o)};
+$("#openCart").onclick=()=>setCart(true);$("#closeCart").onclick=()=>setCart(false);ov.onclick=()=>setCart(false);
+$("#copyList").onclick=()=>{
+  const t=Object.keys(cart).map(i=>`${cart[i]}× ${P[i].name} (${P[i].unit})`).join("\n");
+  if(!t){toast("Die Liste ist leer");return}
+  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast("Liste kopiert ✔")).catch(()=>toast("Kopieren nicht möglich"));
+};
+$("#msgForm").addEventListener("submit",e=>{
+  e.preventDefault();const f=e.target;
+  location.href=`mailto:lebensmittel6@googlemail.com?subject=${encodeURIComponent("Anfrage von "+f.n.value)}&body=${encodeURIComponent(f.m.value+"\n\n"+f.n.value+" ("+f.e.value+")")}`;
+});
+$("#yr").textContent=new Date().getFullYear();
+render();drawCart();
+</script>
+</body>
+</html>
